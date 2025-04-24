@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scholarship Explorer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #E0E0E3; 
+      color: #1E1E63; 
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #5C44BF;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 40px;
+      background: #F9D2A7;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    select {
+      padding: 10px 15px;
+      font-size: 16px;
+      border: 2px solid #B7ADEB;
+      border-radius: 5px;
+      background-color: #fff;
+      color: #1E1E63;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background-color: #fff;
+      border-left: 6px solid #5C44BF; 
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #5C44BF;
+    }
+
+    .card p {
+      color: #444;
+      margin: 6px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background-color: #5C44BF;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #1E1E63; 
+    }
+  </style>
+</head>
+<body>
+  <h1>Scholarship Explorer</h1>
+
+  <div class="filters">
+    <select id="countryFilter">
+      <option value="">All Countries</option>
+      <option value="UK">UK</option>
+      <option value="Germany">Germany</option>
+      <option value="USA">USA</option>
+    </select>
+
+    <select id="courseFilter">
+      <option value="">All Courses</option>
+      <option value="Undergraduate">Undergraduate</option>
+      <option value="Postgraduate">Postgraduate</option>
+    </select>
+
+    <select id="eligibilityFilter">
+      <option value="">All Eligibility</option>
+      <option value="Work Experience">Work Experience</option>
+      <option value="Merit-Based">Merit-Based</option>
+      <option value="Need-Based">Need-Based</option>
+    </select>
+  </div>
+
+  <div class="card-container" id="scholarshipList">
+  
+  </div>
+
+  <script>
+    const scholarships = [
+      {
+        title: "Chevening Scholarship",
+        country: "UK",
+        course: "Postgraduate",
+        eligibility: "Work Experience",
+        description: "Fully-funded master's scholarship for future leaders.",
+      },
+      {
+        title: "DAAD Scholarship",
+        country: "Germany",
+        course: "Postgraduate",
+        eligibility: "Merit-Based",
+        description: "German scholarship for international students.",
+      },
+      {
+        title: "Fulbright Scholarship",
+        country: "USA",
+        course: "Postgraduate",
+        eligibility: "Work Experience",
+        description: "US government-funded postgraduate program.",
+      },
+      {
+        title: "Commonwealth Scholarship",
+        country: "UK",
+        course: "Undergraduate",
+        eligibility: "Need-Based",
+        description: "Scholarship for low-income students from Commonwealth countries.",
+      },
+      {
+        title: "ETH Zurich Excellence Scholarship",
+        country: "Germany",
+        course: "Postgraduate",
+        eligibility: "Merit-Based",
+        description: "For academically excellent students at ETH Zurich.",
+      }
+    ];
+
+    const countryFilter = document.getElementById('countryFilter');
+    const courseFilter = document.getElementById('courseFilter');
+    const eligibilityFilter = document.getElementById('eligibilityFilter');
+    const scholarshipList = document.getElementById('scholarshipList');
+
+    function renderScholarships(data) {
+      scholarshipList.innerHTML = '';
+      data.forEach(scholarship => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${scholarship.title}</h3>
+          <p><strong>Country:</strong> ${scholarship.country}</p>
+          <p><strong>Course:</strong> ${scholarship.course}</p>
+          <p><strong>Eligibility:</strong> ${scholarship.eligibility}</p>
+          <p>${scholarship.description}</p>
+          <a href="#" class="btn">Learn More</a>
+        `;
+        scholarshipList.appendChild(card);
+      });
+    }
+
+    function applyFilters() {
+      const country = countryFilter.value;
+      const course = courseFilter.value;
+      const eligibility = eligibilityFilter.value;
+
+      const filtered = scholarships.filter(s => {
+        return (!country || s.country === country) &&
+               (!course || s.course === course) &&
+               (!eligibility || s.eligibility === eligibility);
+      });
+
+      renderScholarships(filtered);
+    }
+
+    countryFilter.addEventListener('change', applyFilters);
+    courseFilter.addEventListener('change', applyFilters);
+    eligibilityFilter.addEventListener('change', applyFilters);
+
+    renderScholarships(scholarships);
+  </script>
+</body>
+</html>
